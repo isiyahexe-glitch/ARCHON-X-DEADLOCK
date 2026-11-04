@@ -13,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
     EditText targetNumber;
     Button btnBan;
     
+    // ඔයාගේ විස්තර මෙතනට දාලා තියෙනවා
     String GITHUB_USER = "isiyahexe-glitch"; 
-    String GITHUB_REPO = "ARCHONX";
+    String GITHUB_REPO = "ARCHON-X-DEADLOCK";
     String GITHUB_TOKEN = "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"; 
 
     @Override
