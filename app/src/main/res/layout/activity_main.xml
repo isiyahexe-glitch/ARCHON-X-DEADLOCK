@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#000000"
+    android:background="#050505"
     android:padding="20dp">
+
+    <!-- 3D Rotating Logo -->
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/archon_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"/>
+
+    <!-- Hacker Terminal Window -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ARCHON_X // DEADLOCK"
-        android:textColor="#FF0000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="30dp"/>
+        android:id="@+id/consoleText"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:background="#1A1A1A"
+        android:fontFamily="monospace"
+        android:padding="10dp"
+        android:text="[SYSTEM READY]\n> Waiting for target..."
+        android:textColor="#00FF41"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/logoImage" />
+
     <EditText
         android:id="@+id/targetNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Target Number (9477...)"
-        android:textColorHint="#888888"
+        android:hint="TARGET NUMBER (9477...)"
+        android:textColorHint="#555555"
         android:textColor="#FFFFFF"
         android:inputType="phone"
-        android:layout_marginBottom="20dp"/>
+        android:padding="15dp"
+        android:background="#111111"
+        app:layout_constraintTop_toBottomOf="@id/consoleText"
+        android:layout_marginTop="20dp"/>
+
     <Button
         android:id="@+id/btnBan"
         android:layout_width="match_parent"
@@ -30,5 +52,20 @@
         android:text="INITIATE BAN"
         android:backgroundTint="#CC0000"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
-</LinearLayout>
+        android:textStyle="bold"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@id/targetNumber"
+        android:layout_marginTop="20dp"/>
+        
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:indeterminateTint="#FF0000"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btnBan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
