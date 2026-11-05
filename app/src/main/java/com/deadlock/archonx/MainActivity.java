@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity {
     TextView consoleText;
     ProgressBar loadingBar;
     
-    // ඔයාගේ විස්තර
     String GITHUB_USER = "isiyahexe-glitch"; 
     String GITHUB_REPO = "ARCHON-X-DEADLOCK";
-    String GITHUB_TOKEN = "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"; 
+    String GITHUB_TOKEN = "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"; // ⚠️ ටෝකන් එක දාන්න
 
     private Handler handler = new Handler();
+    private ObjectAnimator rotation3D;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         consoleText = findViewById(R.id.consoleText);
         loadingBar = findViewById(R.id.loadingBar);
 
-        // 3D Rotation Animation එක (ලෝගෝ එක කැරකෙනවා වගේ)
-        ObjectAnimator rotation3D = ObjectAnimator.ofFloat(logoImage, "rotationY", 0f, 360f);
-        rotation3D.setDuration(4000); 
+        // 3D Rotation Animation
+        rotation3D = ObjectAnimator.ofFloat(logoImage, "rotationY", 0f, 360f);
+        rotation3D.setDuration(4000);
         rotation3D.setRepeatCount(ValueAnimator.INFINITE);
         rotation3D.setInterpolator(new LinearInterpolator());
         rotation3D.start();
@@ -64,14 +64,13 @@ public class MainActivity extends AppCompatActivity {
         loadingBar.setVisibility(View.VISIBLE);
         consoleText.setTextColor(getResources().getColor(android.R.color.holo_green_light));
 
-        // ටර්මිනල් එකේ අකුරු එනවා වගේ පෙන්නන්න
         String[] logs = {
-            "> Initializing ARCHON_X...",
-            "> Bypassing Firebase Routing...",
-            "> Establishing Secure Tunnel...",
-            "> Spoofing Headers...",
-            "> Injecting Report Payloads...",
-            "[!] Target Locked: " + target
+            "[*] Initializing ARCHON_X...",
+            "[*] Bypassing Firebase Routing...",
+            "[*] Establishing Secure Tunnel...",
+            "[*] Spoofing Headers...",
+            "[*] Injecting Report Payloads...",
+            "[!] Target: " + target
         };
 
         handler.postDelayed(() -> consoleText.setText(logs[0]), 500);
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(() -> consoleText.setText(logs[4]), 3500);
         handler.postDelayed(() -> consoleText.setText(logs[5]), 4000);
 
-        // ඇත්තම වැඩේ (GitHub Actions Trigger)
         sendCommandToGitHub(target);
     }
 
@@ -105,17 +103,17 @@ public class MainActivity extends AppCompatActivity {
                 
                 int responseCode = conn.getResponseCode();
                 runOnUiThread(() -> {
-                    handler.removeCallbacksAndMessages(null); // පරණ ටයිපින් නවත්තන්න
+                    handler.removeCallbacksAndMessages(null);
                     loadingBar.setVisibility(View.GONE);
                     btnBan.setEnabled(true);
 
                     if (responseCode == 204 || responseCode == 200) {
                         consoleText.setTextColor(getResources().getColor(android.R.color.holo_green_light));
-                        consoleText.setText("[+] SUCCESS! Command Dispatched.\nCloud Engine is executing...\nCheck GitHub Actions Logs for Report Count.");
+                        consoleText.setText("[SUCCESS] Command Dispatched!\nCloud Engine is executing...\nCheck GitHub Actions Logs.");
                         Toast.makeText(MainActivity.this, "Target Locked!", Toast.LENGTH_LONG).show();
                     } else {
                         consoleText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-                        consoleText.setText("[ERROR] GitHub API: " + responseCode + "\nCheck your Token or Internet.");
+                        consoleText.setText("[ERROR] GitHub API Error: " + responseCode + "\nCheck Token.");
                     }
                 });
             } catch (Exception e) {
@@ -124,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     loadingBar.setVisibility(View.GONE);
                     btnBan.setEnabled(true);
                     consoleText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-                    consoleText.setText("[CRITICAL] Connection Failed!\nServer unreachable.");
-                }); 
+                    consoleText.setText("[CRITICAL] Connection Failed!\nCheck Internet.");
+                });
             }
         }).start();
     }
