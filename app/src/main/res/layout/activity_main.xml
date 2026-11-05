@@ -7,27 +7,25 @@
     android:background="#050505"
     android:padding="20dp">
 
-    <!-- 3D Rotating Logo -->
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:src="@drawable/archon_logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="40dp"/>
 
-    <!-- Hacker Terminal Window -->
     <TextView
         android:id="@+id/consoleText"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_marginTop="20dp"
         android:background="#1A1A1A"
         android:fontFamily="monospace"
         android:padding="10dp"
-        android:text="[SYSTEM READY]\n> Waiting for target..."
+        android:text="[SYSTEM READY]\nWaiting for target..."
         android:textColor="#00FF41"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/logoImage" />
