@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     btnBan.setEnabled(true);
                     consoleText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
                     consoleText.setText("[CRITICAL] Connection Failed!\nServer unreachable.");
-                });
+                }); 
             }
         }).start();
     }
