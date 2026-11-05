@@ -1,20 +1,15 @@
-apply plugin: 'com.android.application'
-android {
-    namespace 'com.deadlock.archonx'
-    compileSdk 34
-    defaultConfig {
-        applicationId "com.deadlock.archonx"
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.4'
     }
 }
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
