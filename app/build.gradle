@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     namespace 'com.deadlock.archonx'
     compileSdk 34
@@ -15,8 +14,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
-
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4' 
 }
