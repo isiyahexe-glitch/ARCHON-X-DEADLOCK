@@ -1,9 +1,17 @@
 package com.deadlock.archonx;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -12,11 +20,16 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     EditText targetNumber;
     Button btnBan;
+    ImageView logoImage;
+    TextView consoleText;
+    ProgressBar loadingBar;
     
-    // ඔයාගේ විස්තර මෙතනට දාලා තියෙනවා
+    // ඔයාගේ විස්තර
     String GITHUB_USER = "isiyahexe-glitch"; 
     String GITHUB_REPO = "ARCHON-X-DEADLOCK";
-    String GITHUB_TOKEN = "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"; 
+    String GITHUB_TOKEN = "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"; 
+
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
         targetNumber = findViewById(R.id.targetNumber);
         btnBan = findViewById(R.id.btnBan);
+        logoImage = findViewById(R.id.logoImage);
+        consoleText = findViewById(R.id.consoleText);
+        loadingBar = findViewById(R.id.loadingBar);
+
+        // 3D Rotation Animation එක (ලෝගෝ එක කැරකෙනවා වගේ)
+        ObjectAnimator rotation3D = ObjectAnimator.ofFloat(logoImage, "rotationY", 0f, 360f);
+        rotation3D.setDuration(4000); 
+        rotation3D.setRepeatCount(ValueAnimator.INFINITE);
+        rotation3D.setInterpolator(new LinearInterpolator());
+        rotation3D.start();
 
         btnBan.setOnClickListener(v -> {
             String target = targetNumber.getText().toString();
@@ -32,11 +55,37 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Enter Target Number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            sendCommand(target);
+            startHackingProcess(target);
         });
     }
 
-    private void sendCommand(String target) {
+    private void startHackingProcess(String target) {
+        btnBan.setEnabled(false);
+        loadingBar.setVisibility(View.VISIBLE);
+        consoleText.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+
+        // ටර්මිනල් එකේ අකුරු එනවා වගේ පෙන්නන්න
+        String[] logs = {
+            "> Initializing ARCHON_X...",
+            "> Bypassing Firebase Routing...",
+            "> Establishing Secure Tunnel...",
+            "> Spoofing Headers...",
+            "> Injecting Report Payloads...",
+            "[!] Target Locked: " + target
+        };
+
+        handler.postDelayed(() -> consoleText.setText(logs[0]), 500);
+        handler.postDelayed(() -> consoleText.setText(logs[1]), 1200);
+        handler.postDelayed(() -> consoleText.setText(logs[2]), 2000);
+        handler.postDelayed(() -> consoleText.setText(logs[3]), 2800);
+        handler.postDelayed(() -> consoleText.setText(logs[4]), 3500);
+        handler.postDelayed(() -> consoleText.setText(logs[5]), 4000);
+
+        // ඇත්තම වැඩේ (GitHub Actions Trigger)
+        sendCommandToGitHub(target);
+    }
+
+    private void sendCommandToGitHub(String target) {
         new Thread(() -> {
             try {
                 URL url = new URL("https://api.github.com/repos/" + GITHUB_USER + "/" + GITHUB_REPO + "/actions/workflows/ban.yml/dispatches");
@@ -56,14 +105,27 @@ public class MainActivity extends AppCompatActivity {
                 
                 int responseCode = conn.getResponseCode();
                 runOnUiThread(() -> {
+                    handler.removeCallbacksAndMessages(null); // පරණ ටයිපින් නවත්තන්න
+                    loadingBar.setVisibility(View.GONE);
+                    btnBan.setEnabled(true);
+
                     if (responseCode == 204 || responseCode == 200) {
-                        Toast.makeText(MainActivity.this, "Cloud Attack Launched!", Toast.LENGTH_LONG).show();
+                        consoleText.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                        consoleText.setText("[+] SUCCESS! Command Dispatched.\nCloud Engine is executing...\nCheck GitHub Actions Logs for Report Count.");
+                        Toast.makeText(MainActivity.this, "Target Locked!", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "GitHub Error: " + responseCode, Toast.LENGTH_LONG).show();
+                        consoleText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                        consoleText.setText("[ERROR] GitHub API: " + responseCode + "\nCheck your Token or Internet.");
                     }
                 });
             } catch (Exception e) {
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Connection Failed!", Toast.LENGTH_LONG).show());
+                runOnUiThread(() -> {
+                    handler.removeCallbacksAndMessages(null);
+                    loadingBar.setVisibility(View.GONE);
+                    btnBan.setEnabled(true);
+                    consoleText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+                    consoleText.setText("[CRITICAL] Connection Failed!\nServer unreachable.");
+                });
             }
         }).start();
     }
